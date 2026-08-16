@@ -1,0 +1,15 @@
+// 追加学習セット：選手像と球団文化
+window.QUIZ_CATEGORIES.current.description = "所属・ポジション・プレースタイル";
+window.QUIZ_CATEGORIES.teams.description = "球団史・文化・育成";
+
+window.QUIZ_QUESTIONS.push(
+  {id:"c13",category:"current",level:3,type:"choice",q:"周東佑京は、どの指名区分からプロ入りした？",options:["育成選手ドラフト2位","ドラフト1位","ドラフト3位","ドラフト6位"],answer:0,explanation:"周東佑京は2017年の育成選手ドラフト2位でソフトバンク入り。育成から一軍の主力へ上がった代表例の一人として覚えると、ホークスの育成文化ともつながる。",source:"https://npb.jp/bis/players/21925136.html"},
+  {id:"c14",category:"current",level:3,type:"choice",q:"近藤健介の打撃を理解するうえで、特に押さえたい特徴は？",options:["高い出塁能力","盗塁数の多さ","犠打専門の打撃","本塁打だけに特化した打撃"],answer:0,explanation:"近藤健介は打率だけでなく出塁率の高さが大きな特徴。2026年のNPB公式チーム成績でも、ソフトバンクの出塁率リーダーとして掲載されている。",source:"https://npb.jp/bis/teams/index_h.html"},
+  {id:"c15",category:"current",level:2,type:"who",clue:"所属：オリックス\n投打：左投左打\n2019年ドラフト1位\nポジション：投手",q:"この選手は誰？",options:["宮城大弥","山下舜平大","曽谷龍平","田嶋大樹"],answer:0,explanation:"宮城大弥。興南高から2019年ドラフト1位でオリックス入りした左腕。",source:"https://npb.jp/bis/players/71875151.html"},
+  {id:"c16",category:"current",level:3,type:"choice",q:"阪神・森下翔太について正しい説明は？",options:["右投右打の外野手で、2022年ドラフト1位","左投左打の投手で、育成ドラフト出身","右投左打の捕手で、高卒ドラフト1位","左投右打の内野手で、社会人出身"],answer:0,explanation:"森下翔太は右投右打の外野手。東海大相模高、中央大を経て2022年ドラフト1位で阪神入り。",source:"https://npb.jp/bis/players/43145157.html"},
+  {id:"c17",category:"current",level:3,type:"choice",q:"日本ハム・万波中正の打撃タイプを成績から捉えるなら、最も近いのは？",options:["長打を期待できるパワーヒッター","盗塁を最優先する俊足型","犠打中心のつなぎ役","四球だけを狙う出塁特化型"],answer:0,explanation:"万波中正は192cmの大型外野手で、2023年に25本塁打、2025年に20本塁打を記録。長打力を軸に選手像をつかむと覚えやすい。",source:"https://npb.jp/bis/players/11815138.html"},
+  {id:"t11",category:"teams",level:3,type:"choice",q:"ソフトバンクが2023年から4軍制を導入した主な目的は？",options:["若手選手の育成とチーム戦力の強化","一軍の試合数を減らすため","外国人選手だけのリーグを作るため","本拠地を増やすため"],answer:0,explanation:"ホークスは2023年から4軍制を導入。公式発表では、さらなる若手選手育成とチーム戦力強化を目的としている。",source:"https://www.softbankhawks.co.jp/news/detail/00006099.html"},
+  {id:"t12",category:"teams",level:3,type:"choice",q:"巨人が公式の「GIANTS WAY」で、育成について掲げている方向性に近いものは？",options:["スポーツ科学に根差した選手育成や指導者養成を進化させる","育成選手制度を使わず即戦力だけを獲得する","二軍以下を廃止して一軍に集約する","データ分析を使わない方針を徹底する"],answer:0,explanation:"GIANTS WAYでは、最新施設や選手寮の整備に加え、スポーツ科学に根差した選手育成・指導者養成を進める考えを明記している。",source:"https://www.giants.jp/sp/giantsway/"},
+  {id:"t13",category:"teams",level:3,type:"choice",q:"日本ハムの本拠地・ES CON FIELD HOKKAIDOの特徴として、球団公式が竣工時に紹介したものは？",options:["日本初の開閉式屋根付き天然芝球場","日本初の完全地下型野球場","NPB初の人工芝を使った球場","外野席を持たない球場"],answer:0,explanation:"エスコンフィールドは2023年開業。球団公式は『日本初の開閉式屋根付き天然芝球場』と紹介している。",source:"https://www.fighters.co.jp/news/detail/00004613.html"},
+  {id:"t14",category:"teams",level:3,type:"choice",q:"東北楽天ゴールデンイーグルスがNPB公式戦に初参加した年は？",options:["2005年","1992年","2001年","2010年"],answer:0,explanation:"楽天は2004年に新規参入が承認され、2005年から公式戦へ参加。プロ野球への新規参入は50年ぶりだった。",source:"https://www.rakuteneagles.jp/special/2019/15th_anniversary/"}
+);
