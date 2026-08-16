@@ -62,3 +62,20 @@ window.QUIZ_QUESTIONS.push({
 ## GitHub Pages
 
 `main` ブランチ直下を GitHub Pages の公開元に設定すれば、そのまま静的サイトとして動作します。
+
+
+## 2026-08-17 学習モード拡張
+
+- 「今日覚える5人」：毎日 NPB 3人 + MLB 2人を固定表示し、先に選手ファイルを読んでから5問で確認
+- LEVEL / XP：通常クイズ、Daily Five、初見の選手ファイル閲覧で加算
+- 選手名鑑・スポーツ誌を意識した情報密度の高いUI
+- 新カテゴリ「制度・大会」：FA / ドラフト / クライマックスシリーズ
+- 「今日の10問」に制度・大会も混ざるよう拡張
+- 既存 `npb-quiz-club:v1` の localStorage を維持し、`progress` を追加する後方互換構成
+
+### 追加ファイル
+
+- `questions-systems.js` — 制度・大会の問題
+- `players.js` — Daily Five 用選手ファイル
+- `app-v3-learning.js` — Daily Five / XP / LEVEL
+- `progression.css` — 名鑑・雑誌型UIと進捗表示
