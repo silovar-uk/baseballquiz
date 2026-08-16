@@ -8,6 +8,7 @@
   <title>NPB QUIZ CLUB</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="enhancements.css">
 </head>
 <body>
   <header class="topbar">
@@ -24,7 +25,7 @@
         <div>
           <p class="eyebrow">LEARN THE GAME</p>
           <h1>知ってる野球を、<br><em>わかる野球</em>へ。</h1>
-          <p class="hero-copy">基本ルールの次に知りたい、選手・球団・歴史・記録・MLB挑戦組。間違えた問題だけ、ブラウザに残して復習。</p>
+          <p class="hero-copy">基本ルールの次に知りたい、選手・球団・歴史・記録・MLB挑戦組。間違いだけでなく「合ってたけど自信なし」もブラウザに残して復習。</p>
         </div>
         <div class="hero-score" aria-label="今日の復習状況">
           <span>REVIEW DUE</span>
@@ -60,13 +61,13 @@
       <section class="section-block notebook-block">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">WRONG ANSWER NOTEBOOK</p>
-            <h2>間違いノート</h2>
+            <p class="eyebrow">REVIEW NOTEBOOK</p>
+            <h2>復習ノート</h2>
           </div>
           <button id="open-notebook" class="text-button" type="button">一覧を見る →</button>
         </div>
         <div class="notebook-summary">
-          <div><strong id="wrong-total">0</strong><span>これまで間違えた問題</span></div>
+          <div><strong id="wrong-total">0</strong><span>復習に入った問題</span></div>
           <div><strong id="mastered-total">0</strong><span>復習を卒業した問題</span></div>
           <div><strong id="streak-total">0</strong><span>連続学習日</span></div>
         </div>
@@ -91,6 +92,12 @@
           <div class="feedback-head"><strong id="feedback-title"></strong><span id="feedback-badge"></span></div>
           <p id="feedback-explanation"></p>
           <a id="feedback-source" class="source-link" href="#" target="_blank" rel="noopener">出典を確認 ↗</a>
+
+          <div class="confidence-row">
+            <button id="mark-unsure" class="unsure-button" type="button" hidden>正解したけど、自信なし</button>
+            <p id="unsure-note" class="unsure-note" aria-live="polite" hidden>押すと1日後の復習に追加。</p>
+          </div>
+
           <button id="next-question" class="next-button" type="button">次の問題へ</button>
         </div>
       </article>
@@ -110,7 +117,7 @@
     <section id="notebook-view" class="view">
       <div class="subpage-head">
         <button class="back-button" data-home type="button">← ホーム</button>
-        <div><p class="eyebrow">WRONG ANSWER NOTEBOOK</p><h1>間違いノート</h1></div>
+        <div><p class="eyebrow">REVIEW NOTEBOOK</p><h1>復習ノート</h1></div>
       </div>
       <div class="notebook-tools">
         <label>表示
@@ -134,13 +141,16 @@
     <div class="stats-list">
       <div><span>回答数</span><strong id="stat-answered">0</strong></div>
       <div><span>正解率</span><strong id="stat-accuracy">—</strong></div>
-      <div><span>間違いノート</span><strong id="stat-wrong">0</strong></div>
+      <div><span>復習ノート</span><strong id="stat-wrong">0</strong></div>
       <div><span>今日の復習</span><strong id="stat-due">0</strong></div>
     </div>
     <p class="privacy-note">記録はこのブラウザの localStorage にだけ保存されます。サーバー送信はしません。</p>
   </dialog>
 
   <script src="questions.js"></script>
-  <script src="app.js"></script>
+  <script src="questions-extra.js"></script>
+  <script src="app-v2-state.js"></script>
+  <script src="app-v2-quiz.js"></script>
+  <script src="app-v2-ui.js"></script>
 </body>
 </html>
