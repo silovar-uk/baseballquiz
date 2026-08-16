@@ -3,7 +3,7 @@
 
   function dailySet() {
     const current = BQ.QUESTIONS.filter(q => ["current", "mlb", "stats", "tactics"].includes(q.category));
-    const history = BQ.QUESTIONS.filter(q => ["history", "teams"].includes(q.category));
+    const history = BQ.QUESTIONS.filter(q => ["history", "teams", "systems"].includes(q.category));
     return BQ.shuffle(current).slice(0, 7)
       .concat(BQ.shuffle(history).slice(0, 3))
       .sort(() => Math.random() - .5);
