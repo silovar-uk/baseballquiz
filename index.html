@@ -9,6 +9,7 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="enhancements.css">
+  <link rel="stylesheet" href="progression.css">
 </head>
 <body>
   <header class="topbar">
@@ -25,7 +26,7 @@
         <div>
           <p class="eyebrow">LEARN THE GAME</p>
           <h1>知ってる野球を、<br><em>わかる野球</em>へ。</h1>
-          <p class="hero-copy">基本ルールの次に知りたい、選手・球団・歴史・記録・MLB挑戦組。間違いだけでなく「合ってたけど自信なし」もブラウザに残して復習。</p>
+          <p class="hero-copy">基本ルールの次に知りたい、選手・球団・歴史・制度・記録・MLB挑戦組。間違いだけでなく「合ってたけど自信なし」もブラウザに残して復習。</p>
         </div>
         <div class="hero-score" aria-label="今日の復習状況">
           <span>REVIEW DUE</span>
@@ -38,7 +39,7 @@
         <button class="action-card primary" data-start="daily" type="button">
           <span class="action-kicker">10 QUESTIONS</span>
           <strong>今日の10問</strong>
-          <small>現役7：歴史3を目安にミックス</small>
+          <small>現役・MLB 7：球団・歴史・制度 3</small>
         </button>
         <button class="action-card review" data-start="review" type="button">
           <span class="action-kicker">SPACED REVIEW</span>
@@ -149,8 +150,11 @@
 
   <script src="questions.js"></script>
   <script src="questions-extra.js"></script>
+  <script src="questions-systems.js"></script>
+  <script src="players.js"></script>
   <script src="app-v2-state.js"></script>
   <script src="app-v2-quiz.js"></script>
   <script src="app-v2-ui.js"></script>
+  <script src="app-v3-learning.js"></script>
 </body>
 </html>
