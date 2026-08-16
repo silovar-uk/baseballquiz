@@ -1,0 +1,71 @@
+.confidence-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.unsure-button {
+  appearance: none;
+  border: 1px solid color-mix(in srgb, currentColor 26%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  padding: 9px 13px;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+}
+
+.unsure-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.58);
+  border-color: color-mix(in srgb, currentColor 42%, transparent);
+}
+
+.unsure-button:focus-visible {
+  outline: 3px solid rgba(181, 58, 45, 0.28);
+  outline-offset: 3px;
+}
+
+.unsure-button:disabled {
+  cursor: default;
+  opacity: 0.72;
+}
+
+.unsure-note {
+  margin: 0;
+  font-size: 0.78rem;
+  opacity: 0.68;
+}
+
+.note-origin {
+  display: inline-flex;
+  width: fit-content;
+  margin: 2px 0 12px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: rgba(20, 40, 29, 0.07);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.result-wrong-item.unsure {
+  border-style: dashed;
+}
+
+@media (max-width: 640px) {
+  .confidence-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .unsure-button {
+    width: 100%;
+    min-height: 44px;
+  }
+}
