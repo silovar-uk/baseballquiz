@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#14281d">
+  <meta name="description" content="NPBを一段深く知るための、復習中心の野球クイズ。">
+  <title>NPB QUIZ CLUB</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="NPB Quiz Club ホーム">
+      <span class="brand-mark">BQ</span>
+      <span><strong>NPB QUIZ CLUB</strong><small>野球を、もう一段おもしろく。</small></span>
+    </a>
+    <button class="icon-button" id="open-stats" type="button" aria-label="学習記録を開く">記録</button>
+  </header>
+
+  <main class="shell">
+    <section id="home-view" class="view active">
+      <div class="hero">
+        <div>
+          <p class="eyebrow">LEARN THE GAME</p>
+          <h1>知ってる野球を、<br><em>わかる野球</em>へ。</h1>
+          <p class="hero-copy">基本ルールの次に知りたい、選手・球団・歴史・記録・MLB挑戦組。間違えた問題だけ、ブラウザに残して復習。</p>
+        </div>
+        <div class="hero-score" aria-label="今日の復習状況">
+          <span>REVIEW DUE</span>
+          <strong id="due-count">0</strong>
+          <small>今日の復習</small>
+        </div>
+      </div>
+
+      <section class="action-grid" aria-label="クイズを始める">
+        <button class="action-card primary" data-start="daily" type="button">
+          <span class="action-kicker">10 QUESTIONS</span>
+          <strong>今日の10問</strong>
+          <small>現役7：歴史3を目安にミックス</small>
+        </button>
+        <button class="action-card review" data-start="review" type="button">
+          <span class="action-kicker">SPACED REVIEW</span>
+          <strong>復習する</strong>
+          <small><span id="review-card-count">0</span>問が復習対象</small>
+        </button>
+      </section>
+
+      <section class="section-block">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">CATEGORY</p>
+            <h2>ジャンルから覚える</h2>
+          </div>
+          <span id="question-total" class="count-pill">0問</span>
+        </div>
+        <div id="category-grid" class="category-grid"></div>
+      </section>
+
+      <section class="section-block notebook-block">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">WRONG ANSWER NOTEBOOK</p>
+            <h2>間違いノート</h2>
+          </div>
+          <button id="open-notebook" class="text-button" type="button">一覧を見る →</button>
+        </div>
+        <div class="notebook-summary">
+          <div><strong id="wrong-total">0</strong><span>これまで間違えた問題</span></div>
+          <div><strong id="mastered-total">0</strong><span>復習を卒業した問題</span></div>
+          <div><strong id="streak-total">0</strong><span>連続学習日</span></div>
+        </div>
+      </section>
+    </section>
+
+    <section id="quiz-view" class="view" aria-live="polite">
+      <div class="quiz-topline">
+        <button id="quit-quiz" class="back-button" type="button">← 終了</button>
+        <div class="quiz-progress-wrap">
+          <div class="quiz-progress-meta"><span id="quiz-mode-label">今日の10問</span><span id="quiz-progress-label">1 / 10</span></div>
+          <div class="progress-track"><div id="quiz-progress-bar" class="progress-bar"></div></div>
+        </div>
+      </div>
+
+      <article class="quiz-card">
+        <div class="quiz-meta"><span id="question-category" class="category-chip"></span><span id="question-level" class="level-chip"></span></div>
+        <p id="question-clue" class="question-clue"></p>
+        <h2 id="question-text"></h2>
+        <div id="answer-area" class="answer-area"></div>
+        <div id="feedback" class="feedback" hidden>
+          <div class="feedback-head"><strong id="feedback-title"></strong><span id="feedback-badge"></span></div>
+          <p id="feedback-explanation"></p>
+          <a id="feedback-source" class="source-link" href="#" target="_blank" rel="noopener">出典を確認 ↗</a>
+          <button id="next-question" class="next-button" type="button">次の問題へ</button>
+        </div>
+      </article>
+    </section>
+
+    <section id="result-view" class="view">
+      <div class="result-card">
+        <p class="eyebrow">SESSION COMPLETE</p>
+        <h2>今日の打席、終了。</h2>
+        <div class="result-score"><strong id="result-correct">0</strong><span>/ <span id="result-total">0</span> 正解</span></div>
+        <p id="result-message"></p>
+        <div id="result-wrongs" class="result-wrongs"></div>
+        <button id="back-home" class="next-button" type="button">ホームへ戻る</button>
+      </div>
+    </section>
+
+    <section id="notebook-view" class="view">
+      <div class="subpage-head">
+        <button class="back-button" data-home type="button">← ホーム</button>
+        <div><p class="eyebrow">WRONG ANSWER NOTEBOOK</p><h1>間違いノート</h1></div>
+      </div>
+      <div class="notebook-tools">
+        <label>表示
+          <select id="notebook-filter">
+            <option value="all">すべて</option>
+            <option value="due">復習期限が来た問題</option>
+            <option value="learning">学習中</option>
+            <option value="mastered">卒業済み</option>
+          </select>
+        </label>
+        <button id="reset-progress" class="danger-text" type="button">学習記録をリセット</button>
+      </div>
+      <div id="notebook-list" class="notebook-list"></div>
+    </section>
+  </main>
+
+  <dialog id="stats-dialog" class="stats-dialog">
+    <button id="close-stats" class="dialog-close" type="button" aria-label="閉じる">×</button>
+    <p class="eyebrow">LEARNING RECORD</p>
+    <h2>学習記録</h2>
+    <div class="stats-list">
+      <div><span>回答数</span><strong id="stat-answered">0</strong></div>
+      <div><span>正解率</span><strong id="stat-accuracy">—</strong></div>
+      <div><span>間違いノート</span><strong id="stat-wrong">0</strong></div>
+      <div><span>今日の復習</span><strong id="stat-due">0</strong></div>
+    </div>
+    <p class="privacy-note">記録はこのブラウザの localStorage にだけ保存されます。サーバー送信はしません。</p>
+  </dialog>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
