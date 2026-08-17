@@ -26,26 +26,49 @@ NPBを「基本ルールは知っている」状態から、もう一段詳し�
 
 同じ日は同じ5人を表示します。
 
-## 選手名鑑 v4
+## 選手名鑑 v5
 
-- **74人収録**
-  - NPB 60人：12球団 × 5人
+- **134人収録**
+  - NPB 120人：12球団 × 10人
   - MLB日本人 14人
 - 選手名 / 球団 / 特徴で検索
 - NPB / MLBで絞り込み
 - 球団・MLBチームで絞り込み
-- 各選手に以下を収録
-  - 所属・ポジション・投打
-  - 「まず覚える特徴」
-  - 覚え方
-  - 2026年の見どころ
-  - 主な実績・代表歴
-  - キャリア年表
-  - 複数の公式情報リンク
-  - 情報確認日
+- 選手カード全体から詳細を開ける
+- 「同じ球団」の関連選手を各カードに表示
+- 各選手に公式情報リンクを設置
 - 選手ごとの確認問題を自動生成
+- 総問題数は **211問**
 
-選手情報の確認基準日は **2026-08-17**。NPBは NPB.jp の2026年度選手一覧・球団別成績、MLBは MLB.com の選手プロフィール・International Players を中心に確認しています。
+### 情報の層
+
+コア選手は、所属・ポジション・投打に加えて、覚え方、2026年の見どころ、主な実績・代表歴、キャリア年表、複数の公式情報リンクまで収録します。
+
+追加の `ROSTER+` 選手は、2026年度の支配下登録をNPB公式で確認し、所属・ポジション・同球団の関連選手・公式選手検索への導線を持たせています。
+
+選手情報の確認基準日は **2026-08-17**。NPBは NPB.jp の2026年度支配下選手登録・球団別成績、MLBは MLB.com の選手プロフィール・International Players を中心に確認しています。
+
+## データ更新設計 v5
+
+`players-npb-expansion-v5.js` に、更新確認日・各球団のNPB公式支配下登録URL・目標人数をまとめています。
+
+- `verifiedAt`: 情報確認日
+- `targetNpbPerTeam`: 1球団あたりの名鑑目標人数
+- `teamSources`: 12球団のNPB公式支配下登録URL
+- 既存選手と名前が重複する候補は自動で除外
+- 各球団が10人に達するまで候補から自動補充
+
+所属更新時は、NPB公式の支配下登録を確認して候補リストと `verifiedAt` を更新します。既存の濃い選手データを壊さず拡張できる構造です。
+
+## ボタン / 操作UI v5
+
+- ボタンは下辺の厚み＋影で「押せる」ことを明示
+- hoverで少し浮き、押下時に沈む
+- 「今日の学習」を最も強い主CTAとして表示
+- その他のクイズ / 復習操作は一段弱い階層
+- 選手ミニカード・選手名鑑カードはカード全体をクリック可能
+- キーボードの Enter / Space と `focus-visible` に対応
+- `prefers-reduced-motion` に対応
 
 ## LEVEL / XP
 
@@ -62,18 +85,21 @@ NPBを「基本ルールは知っている」状態から、もう一段詳し�
 - `enhancements.css` — 復習・自信なしUI
 - `progression.css` — Daily Five / 全体XP
 - `player-detail-v4.css` — 選手名鑑 / 学習フロー / ジャンル別LEVEL
+- `buttons-v5.css` — 立体ボタン / カード操作のアフォーダンス
 - `questions.js` — 初期問題データ
 - `questions-extra.js` — 選手像・球団文化の追加問題
 - `questions-systems.js` — FA / ドラフト / CSなど制度・大会
-- `players-npb-central-v4.js` — セ・リーグ30選手
-- `players-npb-pacific-v4.js` — パ・リーグ30選手
+- `players-npb-central-v4.js` — セ・リーグのコア選手
+- `players-npb-pacific-v4.js` — パ・リーグのコア選手
 - `players-mlb-v4.js` — MLB日本人14選手
+- `players-npb-expansion-v5.js` — 12球団10人化 / 更新元 / ROSTER+選手
 - `player-questions-v4.js` — 選手プロフィールから確認問題を生成
 - `app-v2-state.js` — 保存・復習スケジュール
 - `app-v2-quiz.js` — 出題・回答・「自信なし」処理
 - `app-v2-ui.js` — ダッシュボード・復習ノート
 - `app-v3-learning.js` — Daily Five / 全体XP / LEVEL
 - `app-v4-learning.js` — 全選手名鑑 / 毎日の学習フロー / ジャンル別LEVEL
+- `app-v5-interactions.js` — カード全体クリック / 同球団関連 / データ確認表示
 - `favicon.svg` — favicon
 - `app.js` — 初版ロジック（現在は読み込まない）
 - `players.js` — v3選手データ（現在は読み込まない）
