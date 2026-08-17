@@ -1,0 +1,376 @@
+/* v8: unified learning loop
+ * Know -> Recall -> Connect -> Return
+ * Primary purpose: make the next learning action obvious without letting XP or utility UI take over.
+ */
+
+:root {
+  --loop-ink: #14281d;
+  --loop-paper: #fffdf7;
+  --loop-soft: rgba(20, 40, 29, .055);
+  --loop-line: rgba(20, 40, 29, .14);
+  --loop-muted: #5e685f;
+  --loop-accent: #a34d39;
+}
+
+/* --------------------------------------------------
+   1. Home hierarchy
+   -------------------------------------------------- */
+.hero-copy {
+  max-width: 46em;
+  line-height: 1.8;
+}
+
+.action-grid .action-card.learn-five,
+.action-grid .action-card.learn-five.is-primary-cta {
+  order: -1;
+  background: var(--loop-ink);
+  color: #f6f2e8;
+  border: 2px solid #09130e;
+  box-shadow: 0 6px 0 #08110c, 0 14px 26px rgba(20, 40, 29, .18);
+}
+
+/* Free quiz is useful, but it is not the main daily learning route. */
+.action-grid .action-card.primary.is-secondary-route,
+.action-grid .action-card.review.is-secondary-route {
+  background: rgba(255, 255, 255, .66);
+  color: var(--loop-ink);
+  border: 1px solid rgba(20, 40, 29, .3);
+  box-shadow: 0 2px 0 rgba(20, 40, 29, .10), 0 7px 14px rgba(20, 40, 29, .05);
+}
+
+.action-grid .action-card.primary.is-secondary-route:hover,
+.action-grid .action-card.review.is-secondary-route:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 rgba(20, 40, 29, .12), 0 9px 16px rgba(20, 40, 29, .06);
+}
+
+.action-grid .action-card.primary.is-secondary-route:active,
+.action-grid .action-card.review.is-secondary-route:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.action-grid .action-card.primary.is-secondary-route::before,
+.action-grid .action-card.review.is-secondary-route::before {
+  content: none;
+}
+
+/* XP remains available, but reads as a record rather than the purpose. */
+.progress-strip {
+  margin-top: 28px;
+  border-color: rgba(20, 40, 29, .10);
+  background: rgba(20, 40, 29, .10);
+}
+
+.progress-strip > div {
+  background: rgba(246, 242, 232, .72);
+}
+
+.progress-strip small {
+  opacity: .54;
+}
+
+.progress-strip strong {
+  color: #34453a;
+}
+
+/* --------------------------------------------------
+   2. Home learning loop
+   -------------------------------------------------- */
+.learning-loop {
+  margin-top: 22px;
+  padding: clamp(20px, 3vw, 28px);
+  border: 1px solid var(--loop-line);
+  border-radius: 18px;
+  background: rgba(255, 253, 247, .58);
+}
+
+.learning-loop-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.learning-loop-head h2 {
+  margin: 0;
+  font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+  letter-spacing: -.025em;
+}
+
+#learning-loop-status.is-complete {
+  background: #dfead4;
+  border-color: rgba(51, 90, 57, .18);
+  color: #335a39;
+}
+
+.learning-loop-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.learning-loop-step {
+  position: relative;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 14px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  color: rgba(20, 40, 29, .48);
+}
+
+.learning-loop-step b {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: .75rem;
+}
+
+.learning-loop-step span,
+.learning-loop-step strong,
+.learning-loop-step small {
+  display: block;
+}
+
+.learning-loop-step strong {
+  margin-top: 1px;
+  color: inherit;
+  font-size: .95rem;
+}
+
+.learning-loop-step small {
+  margin-top: 4px;
+  font-size: .74rem;
+  line-height: 1.55;
+  color: inherit;
+}
+
+.learning-loop-step.is-active {
+  color: var(--loop-ink);
+  border-color: rgba(20, 40, 29, .18);
+  background: rgba(20, 40, 29, .05);
+}
+
+.learning-loop-step.is-active b {
+  background: var(--loop-ink);
+  border-color: var(--loop-ink);
+  color: #f6f2e8;
+}
+
+.learning-loop-step.is-done {
+  color: #58745e;
+}
+
+.learning-loop-step.is-done b {
+  font-size: 0;
+  background: #e1ebdc;
+  border-color: rgba(88, 116, 94, .42);
+}
+
+.learning-loop-step.is-done b::after {
+  content: "✓";
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.learning-loop-goal {
+  margin: 18px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--loop-line);
+  color: #465148;
+  font-size: .88rem;
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+/* --------------------------------------------------
+   3. Explanation is a bridge, not an endpoint
+   -------------------------------------------------- */
+.connection-panel {
+  max-width: 42em;
+  margin-top: 18px;
+  padding: 14px 0 2px 16px;
+  border-left: 3px solid rgba(20, 40, 29, .22);
+}
+
+.connection-panel.compact {
+  margin-top: 16px;
+}
+
+.connection-kicker {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--loop-accent);
+  font-size: .66rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+.connection-panel > strong {
+  display: block;
+  font-size: .98rem;
+  line-height: 1.55;
+}
+
+.connection-panel p {
+  margin: 6px 0 7px;
+  color: #465148;
+  font-size: .9rem;
+  line-height: 1.76;
+}
+
+.connection-panel small {
+  display: block;
+  color: #6b746d;
+  font-size: .76rem;
+  line-height: 1.65;
+}
+
+/* --------------------------------------------------
+   4. Results point to the next learning action
+   -------------------------------------------------- */
+.result-loop-panel {
+  margin-top: 26px;
+  padding: 18px;
+  border-top: 2px solid var(--loop-ink);
+  border-bottom: 1px solid var(--loop-line);
+  background: rgba(20, 40, 29, .035);
+}
+
+.result-loop-panel > span,
+.field-transfer > span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--loop-accent);
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .11em;
+}
+
+.result-loop-panel > strong,
+.field-transfer > strong {
+  display: block;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.result-loop-panel p,
+.field-transfer p {
+  margin: 7px 0 0;
+  color: #4b564e;
+  font-size: .88rem;
+  line-height: 1.75;
+}
+
+.result-loop-action {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 14px;
+  border: 1.5px solid #0b1a12;
+  border-radius: 11px;
+  background: var(--loop-ink);
+  color: #fff;
+  box-shadow: 0 3px 0 #0b1a12;
+  font: inherit;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.result-loop-action:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 0 #0b1a12;
+}
+
+.result-loop-action:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.result-loop-action.secondary {
+  border-color: rgba(20, 40, 29, .35);
+  background: rgba(255, 255, 255, .7);
+  color: var(--loop-ink);
+  box-shadow: 0 2px 0 rgba(20, 40, 29, .12);
+}
+
+.field-transfer {
+  margin: 22px 0 2px;
+  padding: 16px 18px;
+  border: 1px solid var(--loop-line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .5);
+  text-align: left;
+}
+
+/* Keep the standard home button clearly secondary when a contextual next step exists. */
+.result-loop-panel + .next-button,
+.field-transfer + .next-button {
+  background: transparent;
+  color: var(--loop-ink);
+  border: 1px solid rgba(20, 40, 29, .32);
+  box-shadow: none;
+}
+
+/* --------------------------------------------------
+   5. Responsive re-editing
+   -------------------------------------------------- */
+@media (max-width: 900px) {
+  .learning-loop-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .learning-loop {
+    margin-top: 16px;
+    padding: 18px 16px;
+  }
+
+  .learning-loop-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .learning-loop-steps {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+
+  .learning-loop-step {
+    grid-template-columns: 32px 1fr;
+    padding: 10px 6px;
+  }
+
+  .learning-loop-step small {
+    font-size: .76rem;
+  }
+
+  .connection-panel {
+    margin-top: 16px;
+    padding-left: 13px;
+  }
+
+  .result-loop-panel {
+    margin-top: 22px;
+    padding: 16px 14px;
+  }
+
+  .progress-strip {
+    margin-top: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .result-loop-action {
+    transition: none !important;
+  }
+}
