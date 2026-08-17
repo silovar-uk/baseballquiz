@@ -1,0 +1,461 @@
+/* v7: reading rhythm audit for quiz + player screens
+ * Goal: readable Japanese measures, stronger vertical rhythm, and density matched to task.
+ */
+:root {
+  --reading-ink: #18201a;
+  --reading-muted: #5e685f;
+  --reading-line: rgba(20, 40, 29, .13);
+  --reading-max-copy: 38em;
+  --reading-max-question: 22em;
+}
+
+/* --------------------------------------------------
+   1. Shared Japanese reading rules
+   -------------------------------------------------- */
+.quiz-card,
+.result-card,
+.note-card,
+.player-file-card,
+.directory-card,
+.profile-point,
+.career-timeline,
+.five-quiz {
+  font-feature-settings: "palt" 1;
+}
+
+.question-clue,
+#question-text,
+#feedback-explanation,
+#result-message,
+.note-card h3,
+.note-card p,
+.player-file-card .hook,
+.player-file-card .remember,
+.player-file-card .profile-point p,
+.player-file-card .career-timeline li,
+.directory-hook,
+.directory-card > p,
+.directory-focus,
+.directory-card details p,
+.directory-card details li,
+.five-quiz h2,
+.five-feedback p {
+  line-break: strict;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+@supports (word-break: auto-phrase) {
+  .question-clue,
+  #question-text,
+  #feedback-explanation,
+  #result-message,
+  .note-card h3,
+  .note-card p,
+  .player-file-card .hook,
+  .player-file-card .remember,
+  .player-file-card .profile-point p,
+  .directory-hook,
+  .directory-card > p,
+  .directory-focus,
+  .five-quiz h2,
+  .five-feedback p {
+    word-break: auto-phrase;
+  }
+}
+
+/* --------------------------------------------------
+   2. Quiz screen: question -> choice -> explanation
+   -------------------------------------------------- */
+.quiz-topline {
+  max-width: 800px;
+  margin-bottom: 20px;
+}
+
+.quiz-card {
+  max-width: 800px;
+  padding: clamp(26px, 5vw, 52px);
+}
+
+.quiz-meta {
+  margin-bottom: 18px;
+}
+
+.question-clue {
+  max-width: var(--reading-max-copy);
+  margin: 0 0 12px;
+  font-size: clamp(.78rem, 1.4vw, .88rem);
+  line-height: 1.65;
+}
+
+.quiz-card h2,
+#question-text {
+  max-width: var(--reading-max-question);
+  margin: 0 0 clamp(26px, 4vw, 34px);
+  font-size: clamp(1.55rem, 3.4vw, 2.15rem);
+  line-height: 1.48;
+  letter-spacing: -.015em;
+  text-wrap: pretty;
+}
+
+.answer-area,
+.five-options {
+  gap: 12px;
+}
+
+.answer-button,
+.five-option {
+  min-height: 60px;
+  padding: 15px 18px;
+  font-size: clamp(.94rem, 1.6vw, 1rem);
+  font-weight: 700;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.feedback {
+  margin-top: 30px;
+  padding-top: 26px;
+}
+
+.feedback-head {
+  align-items: baseline;
+}
+
+.feedback-head strong {
+  font-size: clamp(1.2rem, 2.5vw, 1.45rem);
+}
+
+.feedback p,
+#feedback-explanation {
+  max-width: var(--reading-max-copy);
+  margin: 12px 0 14px;
+  font-size: .98rem;
+  line-height: 1.82;
+  color: #465148;
+  text-wrap: pretty;
+}
+
+.source-link {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 2px;
+  line-height: 1.5;
+}
+
+.confidence-row {
+  margin-top: 20px;
+}
+
+.next-button {
+  min-height: 54px;
+  margin-top: 26px;
+  font-size: 1rem;
+}
+
+/* Result copy should feel like a conclusion, not another dense card. */
+.result-card {
+  max-width: 760px;
+}
+
+#result-message {
+  max-width: 34em;
+  line-height: 1.8;
+  text-wrap: pretty;
+}
+
+.result-wrong-item {
+  padding: 14px 16px;
+  line-height: 1.65;
+}
+
+/* --------------------------------------------------
+   3. Daily player study: change from scan density to reading density
+   Rich profiles no longer fit a five-column magazine strip.
+   -------------------------------------------------- */
+.player-study-shell {
+  max-width: 1040px;
+}
+
+.player-study-head {
+  padding-bottom: 26px;
+}
+
+.player-study-head h1 {
+  max-width: 12em;
+  line-height: 1.04;
+}
+
+.player-study-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid currentColor;
+  border-left: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  border-bottom: 0;
+}
+
+.player-file-card {
+  min-height: 0;
+  padding: clamp(24px, 3vw, 34px);
+  border-right: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+}
+
+.player-file-card .league {
+  margin-top: 26px;
+}
+
+.player-file-card h2 {
+  margin: 8px 0 10px;
+  font-size: clamp(1.65rem, 3vw, 2.25rem);
+  line-height: 1.12;
+}
+
+.player-file-card .team {
+  min-height: 0;
+  font-size: .78rem;
+  line-height: 1.55;
+}
+
+.player-file-card .role {
+  margin-top: 14px;
+}
+
+.player-file-card .hook {
+  max-width: 26em;
+  margin: 22px 0 10px;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+.player-file-card .remember,
+.player-file-card .profile-point p,
+.player-file-card .career-timeline li {
+  max-width: var(--reading-max-copy);
+  font-size: .92rem;
+  line-height: 1.82;
+  color: #465148;
+  text-wrap: pretty;
+}
+
+.profile-rich {
+  margin-top: 22px;
+  padding-top: 20px;
+}
+
+.profile-point,
+.career-timeline {
+  margin: 18px 0;
+}
+
+.profile-point small,
+.career-timeline small {
+  margin-bottom: 7px;
+}
+
+.career-timeline ol {
+  margin-top: 10px;
+}
+
+.career-timeline li {
+  margin: .55rem 0;
+}
+
+.player-tags {
+  gap: 7px;
+  margin-bottom: 16px;
+}
+
+.player-tags span {
+  line-height: 1.35;
+}
+
+.official-link-group {
+  margin-top: 18px;
+}
+
+.official-link-group a {
+  min-height: 40px;
+  padding: 8px 11px;
+  line-height: 1.35;
+}
+
+/* --------------------------------------------------
+   4. Player directory: keep scanability, improve card rhythm
+   -------------------------------------------------- */
+.player-library-shell {
+  max-width: 1180px;
+}
+
+.player-library-head > div p:last-child {
+  max-width: 44em;
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+
+.player-library-grid {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.directory-card {
+  padding: 22px;
+}
+
+.directory-card h2 {
+  margin: .2rem 0 .25rem;
+  font-size: clamp(1.3rem, 2vw, 1.55rem);
+  line-height: 1.25;
+}
+
+.directory-team {
+  min-height: 0;
+  line-height: 1.55;
+}
+
+.directory-hook {
+  margin: 20px 0 9px;
+  font-size: 1.02rem;
+  line-height: 1.68;
+  text-wrap: pretty;
+}
+
+.directory-card > p:not(.directory-hook) {
+  margin: .5rem 0 1.1rem;
+  font-size: .9rem;
+  line-height: 1.82;
+  text-wrap: pretty;
+}
+
+.directory-focus {
+  margin-top: 16px;
+  padding: 14px;
+  font-size: .84rem;
+  line-height: 1.78;
+  text-wrap: pretty;
+}
+
+.directory-card details {
+  margin-top: 18px;
+  padding-top: 14px;
+}
+
+.directory-card summary {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  line-height: 1.45;
+}
+
+.directory-card details p,
+.directory-card details li {
+  font-size: .84rem;
+  line-height: 1.78;
+}
+
+/* --------------------------------------------------
+   5. Notebook: slightly calmer long-text rhythm
+   -------------------------------------------------- */
+.note-card {
+  padding: 20px;
+}
+
+.note-card h3 {
+  max-width: 34em;
+  margin: 10px 0 10px;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.note-card p {
+  max-width: 54em;
+  font-size: .86rem;
+  line-height: 1.78;
+  text-wrap: pretty;
+}
+
+/* --------------------------------------------------
+   6. Responsive re-editing, not simple shrink-down
+   -------------------------------------------------- */
+@media (max-width: 900px) {
+  .player-study-grid {
+    grid-template-columns: 1fr;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  .player-file-card {
+    min-height: 0;
+    scroll-snap-align: none;
+  }
+
+  .player-library-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .quiz-card {
+    padding: 24px 20px 26px;
+    border-radius: 18px;
+  }
+
+  .quiz-card h2,
+  #question-text {
+    max-width: none;
+    font-size: clamp(1.45rem, 7vw, 1.9rem);
+    line-height: 1.5;
+  }
+
+  .answer-button,
+  .five-option {
+    min-height: 58px;
+    padding: 14px 15px;
+    font-size: .96rem;
+  }
+
+  .feedback p,
+  #feedback-explanation {
+    font-size: .95rem;
+    line-height: 1.8;
+  }
+
+  .player-study-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-left: 0;
+    border-top: 1px solid currentColor;
+  }
+
+  .player-file-card {
+    width: 100%;
+    padding: 26px 4px 30px;
+    border-right: 0;
+  }
+
+  .player-file-card h2 {
+    font-size: clamp(1.7rem, 9vw, 2.25rem);
+  }
+
+  .player-file-card .hook,
+  .player-file-card .remember,
+  .player-file-card .profile-point p,
+  .player-file-card .career-timeline li {
+    max-width: none;
+  }
+
+  .player-library-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .directory-card {
+    padding: 20px 18px;
+  }
+
+  .note-card-top {
+    align-items: flex-start;
+  }
+}
