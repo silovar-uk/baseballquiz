@@ -1,0 +1,324 @@
+/* v6: designmd-aligned typography, Japanese line breaking, and control hierarchy */
+:root {
+  --control-ink: #14281d;
+  --control-paper: #fffdf7;
+  --control-line: rgba(20, 40, 29, .28);
+  --control-line-strong: rgba(20, 40, 29, .72);
+  --control-shadow: rgba(20, 40, 29, .16);
+  --control-soft: rgba(20, 40, 29, .06);
+}
+
+/*
+ * Japanese composition
+ * - body copy wraps naturally under strict Japanese line-breaking rules
+ * - display copy balances by phrase instead of forcing decorative breaks
+ * - short UI labels stay intact where possible
+ */
+.hero h1,
+.section-heading h2,
+.quiz-card h2,
+.result-card h2,
+.subpage-head h1,
+.note-card h3,
+.player-study-head h1,
+.player-file-card h2,
+.five-quiz h2 {
+  line-break: strict;
+  text-wrap: balance;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+.hero-copy,
+.question-clue,
+.feedback p,
+.note-card p,
+.privacy-note,
+.player-file-card .remember,
+.player-file-card .hook,
+.player-study-actions p,
+.five-feedback p {
+  line-break: strict;
+  text-wrap: pretty;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+@supports (word-break: auto-phrase) {
+  .hero h1,
+  .section-heading h2,
+  .quiz-card h2,
+  .result-card h2,
+  .subpage-head h1,
+  .note-card h3,
+  .player-study-head h1,
+  .player-file-card h2,
+  .five-quiz h2,
+  .hero-copy,
+  .feedback p,
+  .note-card p {
+    word-break: auto-phrase;
+  }
+}
+
+/* Give Japanese display type a little more air than the previous compressed setting. */
+.hero h1 {
+  line-height: 1.04;
+  letter-spacing: -.04em;
+}
+
+.quiz-card h2 {
+  line-height: 1.42;
+  letter-spacing: -.018em;
+}
+
+.player-study-head h1 {
+  line-height: 1.02;
+  letter-spacing: -.04em;
+}
+
+.player-file-card h2 {
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+
+/* Short controls should not break into awkward two-line labels. */
+.icon-button,
+.text-button,
+.back-button,
+.next-button,
+.order-submit,
+.dialog-close,
+.danger-text,
+.source-link,
+.related-player-chip,
+.official-link-group a {
+  white-space: nowrap;
+}
+
+/*
+ * Control hierarchy
+ * Primary = strong physical depth.
+ * Choice = light tactile response.
+ * Navigation / utility = quiet, compact, still clearly interactive.
+ */
+.action-card.primary,
+.action-card.learn-five,
+.next-button,
+.order-submit {
+  border: 1.5px solid #0b1a12;
+  box-shadow: 0 4px 0 #0b1a12, 0 10px 20px rgba(20, 40, 29, .16);
+  transform: translateY(0);
+}
+
+.action-card.primary:hover,
+.action-card.learn-five:hover,
+.next-button:hover,
+.order-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 0 #0b1a12, 0 13px 24px rgba(20, 40, 29, .18);
+}
+
+.action-card.primary:active,
+.action-card.learn-five:active,
+.next-button:active,
+.order-submit:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #0b1a12, 0 4px 8px rgba(20, 40, 29, .12);
+}
+
+/* Review is important, but it should not compete with today's main action. */
+.action-card.review,
+.action-grid .action-card:not(.primary):not(.learn-five) {
+  border: 1px solid var(--control-line-strong);
+  box-shadow: 0 2px 0 rgba(20, 40, 29, .18), 0 7px 14px rgba(20, 40, 29, .07);
+}
+
+.action-card.review:hover,
+.action-grid .action-card:not(.primary):not(.learn-five):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 rgba(20, 40, 29, .18), 0 9px 17px rgba(20, 40, 29, .09);
+}
+
+.action-card.review:active,
+.action-grid .action-card:not(.primary):not(.learn-five):active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 rgba(20, 40, 29, .18), 0 3px 7px rgba(20, 40, 29, .07);
+}
+
+/* Answers read as choices, not as another set of primary CTAs. */
+.answer-button,
+.five-option,
+.category-card {
+  border: 1px solid var(--control-line);
+  box-shadow: 0 1px 0 rgba(20, 40, 29, .10), 0 4px 10px rgba(20, 40, 29, .04);
+  transform: translateY(0);
+}
+
+.answer-button:hover:not(:disabled),
+.five-option:hover:not(:disabled),
+.category-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(20, 40, 29, .52);
+  box-shadow: 0 2px 0 rgba(20, 40, 29, .12), 0 7px 13px rgba(20, 40, 29, .06);
+}
+
+.answer-button:active:not(:disabled),
+.five-option:active:not(:disabled),
+.category-card:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.answer-button.selected,
+.answer-button.correct,
+.answer-button.wrong,
+.five-option.correct,
+.five-option.wrong {
+  transform: none;
+  box-shadow: inset 3px 0 0 currentColor;
+}
+
+/* Quiet utility controls: visible affordance without fake physical depth. */
+.icon-button,
+.text-button,
+.back-button,
+.unsure-button,
+.related-player-chip {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  box-shadow: none;
+  transform: none;
+}
+
+.icon-button {
+  padding: 8px 13px;
+  border-color: var(--control-line);
+  background: rgba(255, 255, 255, .46);
+}
+
+.text-button,
+.back-button {
+  padding: 8px 10px;
+  background: transparent;
+}
+
+.unsure-button {
+  padding: 9px 13px;
+  border-color: var(--control-line);
+  background: rgba(255, 255, 255, .34);
+}
+
+.related-player-chip {
+  min-height: 36px;
+  border-color: var(--control-line);
+  background: rgba(255, 255, 255, .72);
+}
+
+.icon-button:hover,
+.text-button:hover,
+.back-button:hover,
+.unsure-button:hover:not(:disabled),
+.related-player-chip:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: rgba(20, 40, 29, .34);
+  background: var(--control-soft);
+}
+
+.icon-button:active,
+.text-button:active,
+.back-button:active,
+.unsure-button:active:not(:disabled),
+.related-player-chip:active {
+  transform: translateY(1px);
+  box-shadow: none;
+  background: rgba(20, 40, 29, .10);
+}
+
+/* Source links should stay links, not become faux buttons. */
+.source-link {
+  text-underline-offset: .22em;
+  text-decoration-thickness: 1px;
+}
+
+.source-link:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* Close is a proper touch target even though the visual mark stays small. */
+.dialog-close {
+  width: 44px;
+  height: 44px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.dialog-close:hover {
+  background: var(--control-soft);
+}
+
+/* Keep focus feedback stronger than hover feedback. */
+button:focus-visible,
+[role="button"]:focus-visible,
+a:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(136, 169, 93, .78);
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  /* The hero break is editorial on desktop; mobile gets natural phrase wrapping. */
+  .hero h1 br {
+    display: none;
+  }
+
+  .hero h1 {
+    font-size: clamp(38px, 12.5vw, 58px);
+    line-height: 1.08;
+    letter-spacing: -.035em;
+  }
+
+  .hero-copy {
+    max-width: 38em;
+  }
+
+  .action-card,
+  .answer-button,
+  .five-option,
+  .category-card {
+    text-wrap: pretty;
+  }
+
+  .action-card strong,
+  .category-card strong {
+    line-break: strict;
+    text-wrap: balance;
+  }
+
+  .next-button,
+  .order-submit {
+    min-height: 50px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .action-card,
+  .answer-button,
+  .five-option,
+  .category-card,
+  .next-button,
+  .order-submit,
+  .icon-button,
+  .text-button,
+  .back-button,
+  .unsure-button,
+  .related-player-chip {
+    transition: none !important;
+  }
+}
