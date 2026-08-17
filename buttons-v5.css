@@ -1,0 +1,211 @@
+/* v5: tactile buttons + clear affordance */
+:root {
+  --bq-ink: #14281d;
+  --bq-paper: #f6f2e8;
+  --bq-accent: #a34d39;
+  --bq-depth: rgba(20,40,29,.28);
+}
+
+button,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.action-card,
+.next-button,
+.answer-button,
+.five-option,
+.unsure-button,
+.order-submit,
+.order-selection,
+.icon-button,
+.text-button,
+.back-button,
+.related-player-chip,
+.official-link-group a {
+  position: relative;
+  border: 1.5px solid rgba(20,40,29,.72);
+  box-shadow: 0 3px 0 rgba(20,40,29,.28), 0 7px 14px rgba(20,40,29,.10);
+  transform: translateY(0);
+  transition: transform .11s ease, box-shadow .11s ease, background .15s ease, border-color .15s ease;
+}
+
+.action-card:hover,
+.next-button:hover,
+.answer-button:hover,
+.five-option:hover,
+.unsure-button:hover,
+.order-submit:hover,
+.order-selection:hover,
+.icon-button:hover,
+.text-button:hover,
+.back-button:hover,
+.related-player-chip:hover,
+.official-link-group a:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 0 rgba(20,40,29,.28), 0 9px 18px rgba(20,40,29,.13);
+}
+
+.action-card:active,
+.next-button:active,
+.answer-button:active,
+.five-option:active,
+.unsure-button:active,
+.order-submit:active,
+.order-selection:active,
+.icon-button:active,
+.text-button:active,
+.back-button:active,
+.related-player-chip:active,
+.official-link-group a:active {
+  transform: translateY(3px);
+  box-shadow: 0 0 0 rgba(20,40,29,.2), 0 2px 5px rgba(20,40,29,.08);
+}
+
+button:focus-visible,
+[role="button"]:focus-visible,
+.official-link-group a:focus-visible {
+  outline: 3px solid rgba(163,77,57,.42);
+  outline-offset: 3px;
+}
+
+/* Today is the unmistakable primary action. */
+.action-card.learn-five,
+.action-card.learn-five.is-primary-cta {
+  min-height: 154px;
+  border: 2px solid #09130e;
+  background: var(--bq-ink);
+  color: var(--bq-paper);
+  box-shadow: 0 7px 0 #08110c, 0 15px 28px rgba(20,40,29,.22);
+}
+
+.action-card.learn-five:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 9px 0 #08110c, 0 19px 34px rgba(20,40,29,.25);
+}
+
+.action-card.learn-five:active {
+  transform: translateY(6px);
+  box-shadow: 0 1px 0 #08110c, 0 4px 9px rgba(20,40,29,.16);
+}
+
+.action-card.learn-five::before {
+  content: "START  →";
+  position: absolute;
+  top: 14px;
+  right: 15px;
+  padding: 6px 9px;
+  border: 1px solid rgba(246,242,232,.5);
+  border-radius: 999px;
+  font-size: .64rem;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
+
+.action-card.learn-five .action-kicker,
+.action-card.learn-five small { color: rgba(246,242,232,.72); }
+.action-card.learn-five strong { font-size: clamp(1.35rem,2.4vw,2rem); }
+
+.action-grid .action-card:not(.learn-five) {
+  background: rgba(255,255,255,.72);
+}
+
+/* Cards communicate clickability, not just decoration. */
+.player-mini[data-clickable="true"],
+.player-file-card[data-clickable="true"],
+.directory-card[data-clickable="true"],
+.category-card {
+  cursor: pointer;
+  transition: transform .13s ease, box-shadow .13s ease, border-color .13s ease, background .13s ease;
+}
+
+.directory-card[data-clickable="true"],
+.player-mini[data-clickable="true"] {
+  box-shadow: 0 3px 0 rgba(20,40,29,.14), 0 8px 18px rgba(20,40,29,.06);
+}
+
+.directory-card[data-clickable="true"]:hover,
+.player-mini[data-clickable="true"]:hover {
+  transform: translateY(-2px);
+  border-color: rgba(20,40,29,.38);
+  box-shadow: 0 5px 0 rgba(20,40,29,.16), 0 12px 24px rgba(20,40,29,.09);
+}
+
+.directory-card[data-clickable="true"]:active,
+.player-mini[data-clickable="true"]:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(20,40,29,.16), 0 3px 8px rgba(20,40,29,.06);
+}
+
+.card-open-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 12px;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  color: #5b655e;
+}
+.card-open-hint::after { content: "→"; }
+
+.related-team-players {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(20,40,29,.11);
+}
+.related-team-players > small {
+  display:block;
+  margin-bottom: 7px;
+  font-size: .64rem;
+  font-weight: 900;
+  letter-spacing: .1em;
+  color: #756b5e;
+}
+.related-player-list { display:flex; flex-wrap:wrap; gap:7px; }
+.related-player-chip {
+  min-height: 30px;
+  padding: 5px 9px;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--bq-ink);
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 750;
+  cursor:pointer;
+}
+
+.data-health-v5 {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  margin-top:10px;
+  font-size:.72rem;
+  color:#647068;
+}
+.data-health-v5 strong {
+  color:var(--bq-ink);
+  padding:4px 8px;
+  border-radius:999px;
+  background:rgba(20,40,29,.07);
+}
+.data-health-v5 .ok::before {
+  content:"●";
+  margin-right:5px;
+  color:#4f7658;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .action-card,.next-button,.answer-button,.five-option,.unsure-button,
+  .order-submit,.order-selection,.icon-button,.text-button,.back-button,
+  .related-player-chip,.official-link-group a,.directory-card,.player-mini {
+    transition:none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .action-card.learn-five { min-height: 138px; }
+  .action-card.learn-five::before { top: 11px; right: 11px; }
+  .related-player-chip { min-height: 36px; }
+}
