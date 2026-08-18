@@ -46,6 +46,7 @@
       correct: 0,
       wrongIds: [],
       unsureIds: [],
+      answers: [],
       answered: false
     };
 
@@ -146,7 +147,7 @@
     submit.addEventListener("click", () => {
       if (BQ.session.answered) return;
       const correct = chosen.length === q.answer.length && chosen.every((v, i) => v === q.answer[i]);
-      finishAnswer(correct, q);
+      finishAnswer(correct, q, chosen.slice());
     });
 
     area.append(help, selection, ...buttons, submit);
@@ -164,12 +165,23 @@
     });
 
     if (!correct) clicked.classList.add("wrong");
-    finishAnswer(correct, q);
+    finishAnswer(correct, q, index);
   }
 
-  function finishAnswer(correct, q) {
+  function finishAnswer(correct, q, userAnswer) {
     const s = BQ.session;
     s.answered = true;
+
+    const answerRecord = {
+      questionId: q.id,
+      userAnswer: Array.isArray(userAnswer) ? [...userAnswer] : userAnswer,
+      correct,
+      unsure: false
+    };
+    const previousRecordIndex = s.answers.findIndex(item => item.questionId === q.id);
+    if (previousRecordIndex >= 0) s.answers[previousRecordIndex] = answerRecord;
+    else s.answers.push(answerRecord);
+
     BQ.state.stats.answered += 1;
 
     if (correct) {
@@ -208,6 +220,8 @@
     const q = s.qs[s.index];
     BQ.addUncertain(q.id);
     if (!s.unsureIds.includes(q.id)) s.unsureIds.push(q.id);
+    const answerRecord = s.answers.find(item => item.questionId === q.id);
+    if (answerRecord) answerRecord.unsure = true;
 
     btn.disabled = true;
     btn.textContent = "復習に追加した";
@@ -243,18 +257,100 @@
     const list = BQ.$("result-wrongs");
     list.innerHTML = "";
 
-    s.wrongIds.forEach(id => addResultItem(list, id, "復習入り（不正解）"));
-    s.unsureIds
-      .filter(id => !s.wrongIds.includes(id))
-      .forEach(id => addResultItem(list, id, "復習入り（自信なし）", true));
+    const heading = document.createElement("div");
+    heading.className = "result-review-heading";
+    const headingTitle = document.createElement("strong");
+    headingTitle.textContent = "答え合わせ";
+    const headingNote = document.createElement("small");
+    headingNote.textContent = "全問の回答・正解・解説・出典";
+    heading.append(headingTitle, headingNote);
+    list.appendChild(heading);
+
+    const records = s.answers.length
+      ? s.answers
+      : s.qs.map(q => ({ questionId: q.id, userAnswer: null, correct: false, unsure: false }));
+
+    records.forEach((record, index) => addResultReviewItem(list, record, index));
   }
 
-  function addResultItem(list, id, prefix, unsure = false) {
-    const q = BQ.QUESTIONS.find(item => item.id === id);
+  function answerText(q, answer) {
+    if (q.type === "order") {
+      if (!Array.isArray(answer) || !answer.length) return "—";
+      return answer.map(index => q.options[index]).filter(Boolean).join(" → ") || "—";
+    }
+
+    const index = Number(answer);
+    return Number.isInteger(index) && q.options[index] !== undefined
+      ? q.options[index]
+      : "—";
+  }
+
+  function sourceLabel(source) {
+    try {
+      return `出典：${new URL(source).hostname.replace(/^www\./, "")} ↗`;
+    } catch (_) {
+      return "出典を確認 ↗";
+    }
+  }
+
+  function addResultReviewItem(list, record, index) {
+    const q = BQ.QUESTIONS.find(item => item.id === record.questionId);
     if (!q) return;
-    const div = document.createElement("div");
-    div.className = `result-wrong-item${unsure ? " unsure" : ""}`;
-    div.textContent = `${prefix}：${q.q}`;
-    list.appendChild(div);
+
+    const item = document.createElement("article");
+    item.className = `result-review-item ${record.correct ? "is-correct" : "is-wrong"}${record.unsure ? " is-unsure" : ""}`;
+
+    const head = document.createElement("div");
+    head.className = "result-review-head";
+
+    const number = document.createElement("span");
+    number.className = "result-review-number";
+    number.textContent = `Q${index + 1}`;
+
+    const status = document.createElement("span");
+    status.className = "result-review-status";
+    status.textContent = record.correct
+      ? (record.unsure ? "正解・自信なし" : "正解")
+      : "不正解";
+    head.append(number, status);
+
+    const question = document.createElement("h3");
+    question.textContent = q.q;
+
+    const answers = document.createElement("div");
+    answers.className = "result-review-answers";
+    answers.append(
+      resultAnswerRow("あなたの回答", answerText(q, record.userAnswer), "user"),
+      resultAnswerRow("正解", answerText(q, q.answer), "correct")
+    );
+
+    const explanation = document.createElement("p");
+    explanation.className = "result-review-explanation";
+    explanation.textContent = q.explanation || "解説はありません。";
+
+    item.append(head, question, answers, explanation);
+
+    if (q.source) {
+      const source = document.createElement("a");
+      source.className = "result-review-source";
+      source.href = q.source;
+      source.target = "_blank";
+      source.rel = "noopener";
+      source.textContent = sourceLabel(q.source);
+      item.appendChild(source);
+    }
+
+    list.appendChild(item);
+  }
+
+  function resultAnswerRow(label, value, kind) {
+    const row = document.createElement("div");
+    row.className = `result-answer-row ${kind}`;
+    const key = document.createElement("span");
+    key.textContent = label;
+    const text = document.createElement("strong");
+    text.textContent = value;
+    row.append(key, text);
+    return row;
   }
 })();
