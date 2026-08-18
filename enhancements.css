@@ -58,6 +58,134 @@
   border-style: dashed;
 }
 
+/* Session complete: full answer review */
+.result-card {
+  max-width: 840px;
+}
+
+.result-wrongs {
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.result-review-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 6px;
+}
+
+.result-review-heading strong {
+  font-size: 1.1rem;
+}
+
+.result-review-heading small {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.result-review-item {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-left-width: 4px;
+  border-radius: 14px;
+  background: rgba(255, 253, 247, 0.78);
+}
+
+.result-review-item.is-correct {
+  border-left-color: #5a835e;
+}
+
+.result-review-item.is-wrong {
+  border-left-color: #b85a4b;
+}
+
+.result-review-item.is-unsure {
+  border-left-style: dashed;
+}
+
+.result-review-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.result-review-number {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
+.result-review-status {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #e5ecdf;
+  color: #335a39;
+  font-size: 0.7rem;
+  font-weight: 850;
+}
+
+.result-review-item.is-wrong .result-review-status {
+  background: #f2ddd6;
+  color: #8b3f34;
+}
+
+.result-review-item.is-unsure .result-review-status {
+  background: #eee7d1;
+  color: #765d20;
+}
+
+.result-review-item h3 {
+  margin: 10px 0 14px;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.result-review-answers {
+  display: grid;
+  gap: 7px;
+}
+
+.result-answer-row {
+  display: grid;
+  grid-template-columns: 7.2rem 1fr;
+  gap: 10px;
+  align-items: baseline;
+  padding: 9px 11px;
+  border-radius: 9px;
+  background: rgba(20, 40, 29, 0.045);
+}
+
+.result-answer-row span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.result-answer-row strong {
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.result-answer-row.correct {
+  background: #e8f0e3;
+}
+
+.result-review-explanation {
+  margin: 14px 0 10px;
+  color: #4f594f;
+  font-size: 0.84rem;
+}
+
+.result-review-source {
+  color: var(--blue);
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+
 @media (max-width: 640px) {
   .confidence-row {
     align-items: flex-start;
@@ -67,5 +195,24 @@
   .unsure-button {
     width: 100%;
     min-height: 44px;
+  }
+
+  .result-card {
+    padding: 26px 18px;
+  }
+
+  .result-review-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .result-review-item {
+    padding: 15px;
+  }
+
+  .result-answer-row {
+    grid-template-columns: 1fr;
+    gap: 2px;
   }
 }
